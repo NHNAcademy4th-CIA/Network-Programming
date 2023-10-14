@@ -1,4 +1,4 @@
-package org.nhnacademy.minju.clientSocket.problem1;
+package org.nhnacademy.minju.client.problem1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,13 +23,14 @@ public class Client extends Thread{
             if (socket.isConnected()) {
                 System.out.println("서버에 연결되었습니다.");
             }
+            socket.close();
         } catch (IOException e) {
             System.out.println("error : " + e.getMessage());
         }
     }
 
     public static void main(String[] args) throws IOException{
-        Client client = new Client("localhost", 1234);
+        Client client = new Client("localhost", 65514);
         client.start();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // 수신
