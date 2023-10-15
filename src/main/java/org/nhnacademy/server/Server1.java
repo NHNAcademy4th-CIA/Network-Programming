@@ -6,15 +6,13 @@ import java.net.Socket;
 
 public class Server1 {
     public static void main(String[] args) {
-        int port = 1234;
+//        int port = 1234;
 
+        int port = 7000;
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            Socket socket = serverSocket.accept();
-            socket.getOutputStream().flush();
-            socket.close();
+            System.out.println("포트 " + port + "는 사용 가능합니다.");
         } catch (IOException e) {
-            System.out.println("지정된 포트[ " + port + " ]가 이미 사용중입니다.");
+            System.out.println("포트 " + port + "는 이미 사용 중입니다.");
         }
-        System.out.println("정상 사용가능한 포트");
     }
 }
