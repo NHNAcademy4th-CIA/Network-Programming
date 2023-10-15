@@ -25,8 +25,8 @@ public class Client1 extends Thread {
     }
 
     public static void main(String[] args) throws IOException {
-        Client1 client = new Client1("localhost", 1234);
-
+        //Client1 client = new Client1("localhost", 1234);
+        Client1 client = new Client1("localhost", 7000);
         client.start();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String line;
