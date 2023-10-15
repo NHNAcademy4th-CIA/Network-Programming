@@ -40,6 +40,11 @@ public class Client4 extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
         }
 
     }
