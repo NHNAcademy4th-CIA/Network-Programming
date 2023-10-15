@@ -47,7 +47,7 @@ public class Client5 extends Thread {
     }
 
     public static void main(String[] args) throws IOException {
-        Client5 client = new Client5("localhost", 222);
+        Client5 client = new Client5("localhost", 221);
 
         client.start();
         try {

@@ -1,6 +1,9 @@
-package org.nhnacademy.clientsoket;
+package org.nhnacademy.server;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class Client4 extends Thread {
@@ -21,6 +24,7 @@ public class Client4 extends Thread {
             socket= new Socket(host,port);
             System.out.println("서버에 연결 되었습니다.");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String line;
             OutputStream output = socket.getOutputStream();
@@ -33,6 +37,7 @@ public class Client4 extends Thread {
                 output.write(line.getBytes());
                 output.write("\n".getBytes());
                 output.flush();
+                System.out.println(input.readLine());
             }
 
             System.out.println("서버와 연결이 끊어졌습니다.");
