@@ -1,15 +1,14 @@
-package org.nhnacademy.clientsoket.client4;
+package org.nhnacademy.clientsoket;
 
 import java.io.*;
-import java.net.ConnectException;
 import java.net.Socket;
 
-public class Client4 extends Thread {
+public class Client5 extends Thread {
     String host;
     int port;
     Socket socket;
 
-    public Client4(String host, int port) {
+    public Client5(String host, int port) {
         this.host = host;
         this.port = port;
         this.socket = null;
@@ -21,19 +20,17 @@ public class Client4 extends Thread {
             System.out.println(host+port);
             socket= new Socket(host,port);
             System.out.println("서버에 연결 되었습니다.");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String line;
-            OutputStream output = socket.getOutputStream();
+            byte[] buffer = new byte[2048];
             while ((line = reader.readLine()) != null) {
                 // 입력 문자열 전송
                 if (line.equals("exit")) {
                     break;
                 }
 
-                output.write(line.getBytes());
-                output.write("\n".getBytes());
-                output.flush();
+                System.out.println(line);
             }
 
             System.out.println("서버와 연결이 끊어졌습니다.");
@@ -50,7 +47,7 @@ public class Client4 extends Thread {
     }
 
     public static void main(String[] args) throws IOException {
-        Client4 client = new Client4("localhost", 222);
+        Client5 client = new Client5("localhost", 222);
 
         client.start();
         try {
