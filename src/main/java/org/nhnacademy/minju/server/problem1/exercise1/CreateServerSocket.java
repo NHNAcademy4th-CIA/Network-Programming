@@ -1,4 +1,4 @@
-package org.nhnacademy.minju.server.problem1;
+package org.nhnacademy.minju.server.problem1.exercise1;
 
 import java.io.IOException;
 import java.net.ServerSocket;
