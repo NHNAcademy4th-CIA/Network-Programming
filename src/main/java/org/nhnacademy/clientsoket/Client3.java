@@ -19,6 +19,7 @@ public class Client3 {
             System.out.println("Local port : " + socket.getLocalPort());
             System.out.println("Remote address : " + socket.getInetAddress().getHostAddress());
             System.out.println("Remote port : " + socket.getPort());
+            System.in.read();
         } catch(IOException ignore) {
         } finally {
             if (socket != null) {
