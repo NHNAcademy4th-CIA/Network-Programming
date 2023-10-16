@@ -1,4 +1,4 @@
-package org.nhnacademy.lsj.chatServer;
+package org.nhnacademy.lsj.echoChatServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
+public class ClientDuplicated {
 
     public static void main(String[] args) throws IOException {
 

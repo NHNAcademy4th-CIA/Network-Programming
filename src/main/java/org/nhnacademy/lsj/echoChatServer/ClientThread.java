@@ -1,4 +1,4 @@
-package org.nhnacademy.lsj.chatServer;
+package org.nhnacademy.lsj.echoChatServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

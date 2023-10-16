@@ -1,9 +1,8 @@
-package org.nhnacademy.lsj.chatServer;
+package org.nhnacademy.lsj.echoChatServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.Semaphore;
 
 public class ServerThread extends Thread {
 
