@@ -25,26 +25,7 @@ public class ReceiveData {
             while (!Thread.interrupted()) {
                 System.out.println("클라이언트 연결을 기다립니다.");
                 Socket socket = serverSocket.accept();
-                Thread thread = new Thread(() -> {
-                    try {
-                        System.out.println("클라이언트가 연결되었습니다.");
-
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            System.out.println(line); // receive data
-                        }
-                    } catch (IOException ignore) {
-                        System.out.println("socket error : " + ignore.getMessage());
-                    } finally {
-                        // 통신 소켓을 닫는다
-                        try {
-                            socket.close();
-                        } catch (IOException e) {
-                            System.out.println("in thread");
-                        }
-                    }
-                });
+                Thread thread = socketThread(socket);
                 thread.start();
             }
         } catch (IOException e) {
@@ -59,5 +40,28 @@ public class ReceiveData {
                 }
             }
         }
+    }
+
+    private static Thread socketThread(Socket socket) {
+        return new Thread(() -> {
+            try {
+                System.out.println("클라이언트가 연결되었습니다.");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line); // receive data
+                }
+            } catch (IOException ignore) {
+                System.out.println("socket error : " + ignore.getMessage());
+            } finally {
+                // 통신 소켓을 닫는다
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    System.out.println("in thread");
+                }
+            }
+        });
     }
 }
