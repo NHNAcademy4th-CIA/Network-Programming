@@ -28,7 +28,7 @@ public class Client7 extends Thread {
     }
 
     public static void main(String[] args) throws IOException {
-            Socket socket = new Socket("localhost", 222);
+            Socket socket = new Socket("localhost", 221);
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             String line;
