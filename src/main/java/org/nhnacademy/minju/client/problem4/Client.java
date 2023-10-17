@@ -52,7 +52,6 @@ public class Client extends Thread {
                     socket.close();
                 } catch (IOException e) {
                 }
-                socket = null;
             }
         }
 
