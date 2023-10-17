@@ -32,8 +32,10 @@ public class MultiChatSend extends Thread {
             while (!(message = reader.readLine()).equals("Close")) {
 
                 printWriter.println(socket.getInetAddress() + " " + socket.getLocalPort());
+
                 printWriter.println(message);
                 printWriter.flush();
+
             }
 
 

@@ -3,7 +3,6 @@ package org.nhnacademy.lsj.multiChatServer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class MultiChatReceive extends Thread {
@@ -24,7 +23,6 @@ public class MultiChatReceive extends Thread {
         ) {
 
             String message = "";
-
 
             while (!(message = bf.readLine()).equals("Close")) {
                 System.out.println("수신 : " + message);
