@@ -6,59 +6,66 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Server5 extends Thread{
+class Client extends Thread{
     private Socket socket;
-    private BufferedWriter writer;
-    private List<Server5> serverList;
+    private BufferedReader reader;
 
-    public Server5(Socket socket, List<Server5> serverList) {
+    private List<Socket> clientList;
+    public Client(Socket socket,List<Socket> clientList) {
         this.socket = socket;
-        this.serverList = serverList;
-        serverList.add(this);
+        try {
+            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.clientList=clientList;
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        clientList.add(this.socket);
     }
 
     private void chatHandler(String line) {
-        for (Server5 server : serverList) {
+        for (Socket client : clientList) {
             try {
-                writer.write(line);
-                writer.newLine();
-                writer.flush(); if(line.equals("exit"))
+                if(client==this.socket)
+                {
+                    continue;
+                }
+                System.out.println(client);
+                BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+                clientWriter.write(line);
+                clientWriter.newLine();
+                clientWriter.flush();
+                if(line.equals("exit"))
                 {
                     socket.close();
                 }
 
             } catch (IOException e) {
                 System.out.println("error handling chat : " + e.getMessage());
+
             }
-            System.out.println(server);
         }
     }
 
     @Override
     public void run() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             BufferedWriter newWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))) {
-            this.writer = newWriter;
+        try {
             System.out.println("클라이언트가 연결되었습니다.");
-
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println("input : " + line);
                 chatHandler(line);
             }
+            socket.close();
         } catch (IOException e) {
             System.out.println("socket error : " + e.getMessage());
-        } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                System.out.println("in thread");
-            }
-        }
-    }
 
+        }
+
+    }
+}
+public class Main{
     public static void main(String[] args) {
-        List<Server5> serverList = new ArrayList<>();
+        List<Socket> clientList = new ArrayList<>();
         ServerSocket serverSocket = null;
         int port = 221;
 
@@ -69,17 +76,17 @@ public class Server5 extends Thread{
             while (!Thread.interrupted()) {
                 System.out.println("클라이언트 연결을 기다립니다.");
                 Socket socket = serverSocket.accept();
-                Server5 server = new Server5(socket, serverList);
-                server.start();
+                Client client = new Client(socket, clientList);
+                client.start();
             }
         } catch (IOException e) {
-            System.out.println("지정된 포트[ " + port + " ]가 이미 사용중입니다.");
+            System.out.println(port + "사용중");
         } finally {
             if (serverSocket != null) {
                 try {
                     serverSocket.close();
                 } catch (IOException e) {
-                    System.out.println("소켓에 문제가 있습니다 : " + e.getMessage());
+                    System.out.println("소켓 에러");
                 }
             }
         }

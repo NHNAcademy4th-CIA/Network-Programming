@@ -1,4 +1,4 @@
-package org.nhnacademy.clientsoket;
+package org.nhnacademy.server;
 
 import java.io.*;
 import java.net.Socket;
