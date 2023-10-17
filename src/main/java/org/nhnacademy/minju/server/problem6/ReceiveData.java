@@ -17,7 +17,7 @@ import java.util.List;
 public class ReceiveData extends Thread {
 
     private Socket socket;
-    private String name;
+    private String nickName;
     private BufferedWriter writer;
     private List<ReceiveData> serverList;
 
@@ -25,6 +25,10 @@ public class ReceiveData extends Thread {
         this.socket = socket;
         this.serverList = serverList;
         serverList.add(this);
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 
     private void chatHandler(String line) {
@@ -40,8 +44,11 @@ public class ReceiveData extends Thread {
             }
         } else {
             for (ReceiveData server : serverList) {
+                if (this.nickName.equals(server.getNickName())) {
+                    continue;
+                }
                 server.send(line);
-                System.out.println(server);
+                System.out.println(server.getNickName());
             }
         }
     }
@@ -49,9 +56,9 @@ public class ReceiveData extends Thread {
     private void loopServer(String line, String targetName) {
         boolean nameExists = false;
         for (ReceiveData server : serverList) {
-            if (server.name.equals(targetName)) {
+            if (server.getNickName().equals(targetName)) {
                 server.send(line);
-                System.out.println(server);
+                System.out.println(server.getNickName());
                 nameExists = true;
             }
         }
@@ -66,7 +73,7 @@ public class ReceiveData extends Thread {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            System.out.println("error handling chat : " + e.getMessage());
+            System.out.println("error handling chat : " + e.getMessage() + " in " + this.getNickName());
         }
     }
 
@@ -77,9 +84,9 @@ public class ReceiveData extends Thread {
             this.writer = newWriter;
             System.out.println("클라이언트가 연결되었습니다.");
 
-            chatHandler("닉네임을 입력해주세요.");
+            send("닉네임을 입력해주세요.");
             String name = reader.readLine();
-            this.name = name;
+            this.nickName = name;
 
             String line; // data received
             while ((line = reader.readLine()) != null) {
@@ -92,6 +99,7 @@ public class ReceiveData extends Thread {
             // 통신 소켓을 닫는다
             try {
                 socket.close();
+                serverList.remove(this);
             } catch (IOException e) {
                 System.out.println("in thread");
             }
