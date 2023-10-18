@@ -10,12 +10,13 @@ class Client extends Thread{
     private Socket socket;
     private BufferedReader reader;
 
-    private List<Socket> clientList;
-    public Client(Socket socket,List<Socket> clientList) {
+    private static List<Socket> clientList = null;
+    public Client(Socket socket) {
         this.socket = socket;
         try {
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.clientList=clientList;
+            if(clientList==null)
+                clientList = new ArrayList<>();
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -66,7 +67,6 @@ class Client extends Thread{
 }
 public class Main{
     public static void main(String[] args) {
-        List<Socket> clientList = new ArrayList<>();
         ServerSocket serverSocket = null;
         int port = 221;
 
@@ -77,7 +77,7 @@ public class Main{
             while (!Thread.interrupted()) {
                 System.out.println("클라이언트 연결을 기다립니다.");
                 Socket socket = serverSocket.accept();
-                Client client = new Client(socket, clientList);
+                Client client = new Client(socket);
                 client.start();
             }
         } catch (IOException e) {
