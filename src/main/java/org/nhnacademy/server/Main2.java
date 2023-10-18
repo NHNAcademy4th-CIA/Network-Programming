@@ -12,16 +12,19 @@ class Client2 extends Thread{
     private Socket socket;
     private BufferedReader reader;
 
-    private List<Client> clientList;
-    public Client2(Socket socket,List<Client> clientList,String name) {
+    private static List<Client> clientList = null;
+    public Client2(Socket socket,String name) {
         this.socket = socket;
         try {
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.clientList=clientList;
+            if(clientList==null)
+            {
+                clientList = new ArrayList<>();
+            }
         } catch (IOException e) {
             System.out.println(e);
         }
-        this.clientList.add(new Client(name ,this.socket));
+        clientList.add(new Client(name ,this.socket));
     }
     static class Client{
         private Socket socket;
@@ -110,7 +113,6 @@ class Client2 extends Thread{
 }
 public class Main2{
     public static void main(String[] args) {
-        List<Client2.Client> clientList = new ArrayList<>();
         ServerSocket serverSocket = null;
         int port = 221;
 
@@ -125,7 +127,7 @@ public class Main2{
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 line = bufferedReader.readLine();
                 System.out.println("접속한 닉네임 : "+line);
-                Client2 client = new Client2(socket, clientList,line);
+                Client2 client = new Client2(socket,line);
                 client.start();
             }
         } catch (IOException e) {
