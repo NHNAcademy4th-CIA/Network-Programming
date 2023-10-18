@@ -52,8 +52,12 @@ class Client2 extends Thread{
             String newLine = line.substring(1);
             StringTokenizer stringTokenizer = new StringTokenizer(newLine);
             nickName=stringTokenizer.nextToken();
+            StringBuilder stringBuilder = new StringBuilder();
             try {
-                line = stringTokenizer.nextToken();
+                while (stringTokenizer.hasMoreTokens())
+                {
+                    stringBuilder.append(line = stringTokenizer.nextToken());
+                }
             }catch (NoSuchElementException e)
             {
                 System.out.println("어노테이션 대상이 없어 메시지로 전송합니다.");
