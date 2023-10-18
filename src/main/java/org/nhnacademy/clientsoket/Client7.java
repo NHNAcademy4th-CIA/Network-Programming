@@ -24,6 +24,7 @@ public class Client7 {
         public void run() {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
             String line;
+            System.out.println("닉네임을 입력해주세요. : ");
             try {
                 while ((line = bufferedReader.readLine()) != null) {
                     output.write(line);
@@ -64,12 +65,6 @@ public class Client7 {
 
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("localhost", 221);
-        BufferedWriter nickName = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("닉네임을 입력해주세요. : ");
-        nickName.write(bufferedReader.readLine());
-        nickName.write("\n");
-        nickName.flush();
         Send send = new Send(socket);
         send.start();
         Read read = new Read(socket);
