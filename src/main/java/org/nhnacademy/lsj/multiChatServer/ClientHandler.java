@@ -9,6 +9,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 서버와 클라이언트의 연결을 컨트롤함 , 실질적인 서버의 역할이며 , 클라이언트에게 문자를 송신하고 수신받음.
+ */
 public class ClientHandler extends Thread {
 
 
@@ -75,6 +78,10 @@ public class ClientHandler extends Thread {
     }
 
 
+    /**
+     * @param message 사용자가 입력한 메시지.
+     * @상대id message 양식으로 보내면 귓속말을 의미함.
+     */
     private void sendMessageByTarget(String message) {
 
         int targetIndex = 0;
@@ -108,6 +115,11 @@ public class ClientHandler extends Thread {
         sendMessage(message);
     }
 
+    /**
+     * 다중 쳇 서버기 때문에 내가 보낸 채팅이 모두에게 공유되어야 함 .
+     *
+     * @param message 사용자 입력.
+     */
     private void sendMessage(String message) {
 
         for (int i = 0; i < printWriterList.size(); i++) {

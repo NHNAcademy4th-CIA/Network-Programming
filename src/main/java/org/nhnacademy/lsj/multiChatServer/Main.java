@@ -12,11 +12,16 @@ import java.net.Socket;
 public class Main {
 
 
+    /**
+     * 클라이언트의 id는 자동으로 주어짐 , 서버는 연결이 기다리다 연결이되면 connection을 통해 클라이언트와 통신함.
+     *
+     * @param args CLA.
+     */
     public static void main(String[] args) {
 
         ServerSocket server;
 
-        int number = 0;
+        int clientId = 0;
 
         try {
             server = new ServerSocket(32007);
@@ -25,13 +30,13 @@ public class Main {
 
                 Socket connection = server.accept();
 
-                ClientHandler clientHandler = new ClientHandler(connection, number);
+                ClientHandler clientHandler = new ClientHandler(connection, clientId);
 
                 System.out.println(
                         "클라이언트 연결 : " + connection.getInetAddress() + " " + connection.getLocalPort() + " id : " +
-                                number);
+                                clientId);
 
-                number++;
+                clientId++;
                 clientHandler.start();
 
             }

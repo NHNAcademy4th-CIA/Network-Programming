@@ -8,6 +8,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * Client의 영역으로 , 두 기능이 분리된 상태임 , 1 . 입력을 하는 부분  , 2 서버로부터 수신을 받는 부분.
+ * 여기는 입력을 하는 부분을 담당함.
+ */
 public class MultiChatSend extends Thread {
 
 

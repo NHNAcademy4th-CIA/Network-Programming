@@ -8,10 +8,16 @@ import java.net.Socket;
 
 /**
  * 연습 1. 소켓을 이용해 서버에 연결해 보자 . 서버는 nc를 이용.
+ * mac 기준 nc -l 32007 명령어 입력시 32007 포트를 열고 기다림.
  */
 public class Problem1 {
 
 
+    /**
+     * 소켓을 이용해 서버와 연결 , 서버는 nc이용 서버로부터 계속해서 입력 받아옴.
+     *
+     * @param args CLA.
+     */
     public static void main(String[] args) {
 
         ClientForServerConnection client = new ClientForServerConnection("localhost", 32007);

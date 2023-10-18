@@ -7,6 +7,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+/**
+ * 에코서버와 연결되는 클라이언트.
+ */
 class Client extends Thread {
 
     private String host;
@@ -22,6 +25,9 @@ class Client extends Thread {
     }
 
 
+    /**
+     * 입력이 일어남 , 입력한걸 서버로 보낸후 서버로부터 데이터를 받아옴.
+     */
     @Override
     public void run() {
 

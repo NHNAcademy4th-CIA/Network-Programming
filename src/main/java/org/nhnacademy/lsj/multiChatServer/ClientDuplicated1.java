@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 
+/**
+ * 서버와 연결되는 클라이언트 . 서버로 데이터를 송신하는 역할과 , 데이터를 수신하는 역할이 분리되어 Multi Thread로 구동됨.
+ */
 class ClientDuplicated1 extends Thread {
     private String host;
     private int port;

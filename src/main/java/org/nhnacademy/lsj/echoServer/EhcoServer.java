@@ -8,6 +8,9 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * 클라이언트에게 받은 입력을 되돌려주는 에코서버 .
+ */
 class EhcoServer extends Thread {
 
     private ServerSocket socket;
@@ -18,6 +21,9 @@ class EhcoServer extends Thread {
         this.port = port;
     }
 
+    /**
+     * bf.readLine()으로 클라이언트의 입력을 받아냄 , 그 입력을 다시 클라이언트에게 보냄으로써 에코서버 구현.
+     */
     @Override
     public void run() {
         try {
