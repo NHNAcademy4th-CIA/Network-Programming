@@ -21,6 +21,18 @@ public class ClientHandler extends Thread {
     ClientHandler(Socket connection, int id) {
         this.connection = connection;
         this.id = id;
+
+        try {
+            PrintWriter pw = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()));
+            printWriterList.add(pw);
+            pw.println("당신의 ID는 " + id + " 입니다.");
+            pw.flush();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+
+
     }
 
     @Override
@@ -28,11 +40,7 @@ public class ClientHandler extends Thread {
 
 
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-             PrintWriter pw = new PrintWriter(new OutputStreamWriter(connection.getOutputStream()))
         ) {
-
-            printWriterList.add(pw);
-
             String line;
 
             boolean flag = true;
@@ -62,6 +70,7 @@ public class ClientHandler extends Thread {
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -78,40 +87,39 @@ public class ClientHandler extends Thread {
 
             String number = targetMessage.substring(1, index);
             try {
+
                 targetIndex = Integer.parseInt(number); // target2 :문자 형식이 아니면 전부 치우기  , 또 숫자로된 유저 id를 불러야 함
                 targetMessage = targetMessage.substring(index + 1);
 
-                if (targetIndex >= 1 && targetIndex <= printWriterList.size()) {
-                    sendMessageById(targetMessage, targetIndex - 1);
+                if (targetIndex >= 0 && targetIndex < printWriterList.size()) {
+                    printWriterList.get(id).println(targetMessage);
                     return;
                 }
             } catch (NumberFormatException e) {
+                System.out.println("id : " + id + " 사용자 잘못된 명령어 양식 제출");
 
+                printWriterList.get(id).println("잘못된 양식입니다 -> [@상대방ID번호 메시지] 양식으로 입력해 주세요");
+                printWriterList.get(id).flush();
+                return;
             }
 
         }
 
         sendMessage(message);
-
-
     }
 
     private void sendMessage(String message) {
 
         for (int i = 0; i < printWriterList.size(); i++) {
-            if (id == i + 1) {
+            if (id == i) {
                 continue;
             }
-            sendMessageById(message, i);
-        }
-    }
 
-    private void sendMessageById(String message, int id) {
-        printWriterList.get(id).println(message);
-        printWriterList.get(id).flush();
+            printWriterList.get(id).println(message);
+            printWriterList.get(id).flush();
+
+        }
     }
 
 
 }
-
-
