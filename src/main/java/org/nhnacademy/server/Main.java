@@ -31,13 +31,14 @@ class Client extends Thread{
                 }
                 System.out.println(client);
                 BufferedWriter clientWriter = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-                clientWriter.write(line);
-                clientWriter.newLine();
-                clientWriter.flush();
                 if(line.equals("exit"))
                 {
                     socket.close();
                 }
+                clientWriter.write(line);
+                clientWriter.newLine();
+                clientWriter.flush();
+
 
             } catch (IOException e) {
                 System.out.println("error handling chat : " + e.getMessage());
