@@ -16,11 +16,10 @@ public class Main {
 
         ServerSocket server;
 
-        int number = 1;
+        int number = 0;
 
         try {
             server = new ServerSocket(32007);
-
 
             while (true) {
 
@@ -28,8 +27,9 @@ public class Main {
 
                 ClientHandler clientHandler = new ClientHandler(connection, number);
 
-                System.out.println("클라이언트 연결 : " + connection.getInetAddress() + " " + connection.getLocalPort()+" id : "+number);
-
+                System.out.println(
+                        "클라이언트 연결 : " + connection.getInetAddress() + " " + connection.getLocalPort() + " id : " +
+                                number);
 
                 number++;
                 clientHandler.start();
