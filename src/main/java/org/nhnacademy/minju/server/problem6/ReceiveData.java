@@ -5,13 +5,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 메시지는 기본적으로 전체에게 전송된다.
+ *
  * @target 을 통해 특정한 클라이언트를 지정할 경우, 해당 클라이언트에게만 전달된다.
  */
 public class ReceiveData extends Thread {
@@ -19,11 +19,10 @@ public class ReceiveData extends Thread {
     private Socket socket;
     private String nickName;
     private BufferedWriter writer;
-    private List<ReceiveData> serverList;
+    private List<ReceiveData> serverList = new ArrayList<>();
 
-    public ReceiveData(Socket socket, List<ReceiveData> serverList) {
+    public ReceiveData(Socket socket) {
         this.socket = socket;
-        this.serverList = serverList;
         serverList.add(this);
     }
 
@@ -85,8 +84,7 @@ public class ReceiveData extends Thread {
             System.out.println("클라이언트가 연결되었습니다.");
 
             send("닉네임을 입력해주세요.");
-            String name = reader.readLine();
-            this.nickName = name;
+            this.nickName = reader.readLine();
 
             String line; // data received
             while ((line = reader.readLine()) != null) {
@@ -102,36 +100,6 @@ public class ReceiveData extends Thread {
                 serverList.remove(this);
             } catch (IOException e) {
                 System.out.println("in thread");
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        List<ReceiveData> serverList = new ArrayList<>();
-        ServerSocket serverSocket = null;
-        int port = 1234;
-
-        try {
-            serverSocket = new ServerSocket(port);
-
-            System.out.println("서버 소켓이 생성되었습니다.");
-            while (!Thread.interrupted()) {
-                System.out.println("클라이언트 연결을 기다립니다.");
-
-                Socket socket = serverSocket.accept();
-                ReceiveData server = new ReceiveData(socket, serverList);
-                server.start();
-            }
-        } catch (IOException e) {
-            System.out.println("지정된 포트[ " + port + " ]가 이미 사용중입니다.");
-        } finally {
-            // 서버 소켓을 닫는다
-            if (serverSocket != null) {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    System.out.println("server socket error : " + e.getMessage());
-                }
             }
         }
     }
